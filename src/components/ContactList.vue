@@ -1,6 +1,6 @@
 <template>
   <div >
-    <h1>Contact List</h1>
+    <h1>{{title}}</h1>
     <form @submit.prevent>
       <label>Name</label>
       <input v-model="newContact.name" type="text" placeholder="name"> <br>
@@ -8,27 +8,32 @@
       <input v-model="newContact.email" type="text" placeholder="email"> <br>
       <button @click="addContact" type="submit">Add Contact</button>
     </form>
-    <table>
+    <!-- <table>
       <thead>
         <th>Name</th>
         <th>Email</th>
       </thead>
       <tbody>
         <tr v-for="contact in contacts" :key="contact.id">
-          <td>{{contact.name}}</td>
+          <td v-if="contact.name == 'Jhon'">{{'mark'}}</td>
+          <td v-else>{{contact.name}}</td>
           <td>{{contact.email}}</td>
           <td>
             <button @click="deleteContact(contact)">Delete</button>
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
+    <button @click="callParentMethod()">Call parent</button><br>
+    <router-link to="/contacts">Contacts</router-link><br>
+    <router-link to="/add-contact">AddContacts</router-link>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ContactList',
+  props: ['title'],
 
   data(){
     return { 
@@ -45,9 +50,13 @@ export default {
   },
 
   methods: {
+
+    callParentMethod(){
+      this.$emit('parentMtd', 'Aleksandar');
+    },
     addContact()
     {
-      console.log()
+      
       this.contacts.push(this.newContact);
       this.newContact = {};
     },
